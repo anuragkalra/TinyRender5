@@ -19,10 +19,14 @@ struct NormalIntegrator : Integrator {
     explicit NormalIntegrator(const Scene& scene) : Integrator(scene) { }
 
     v3f render(const Ray& ray, Sampler& sampler) const override {
-        v3f color(0.f, 1.f, 0.f);
+        SurfaceInteraction hit = SurfaceInteraction();
 
-        // TODO: Add previous assignment code (if needed)
+        if(scene.bvh->intersect(ray, hit)) {
+            v3f color(hit.frameNs.n);
+            return abs(color);
+        }
 
+        v3f color(hit.frameNs.n);
         return color;
     }
 };

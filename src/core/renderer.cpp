@@ -108,7 +108,22 @@ void Renderer::render() {
          * 2) Call the render function using renderpass->render().
          * 3) Output the rendered image into the GUI window using SDL_GL_SwapWindow(renderpass->window).
          */
-        // TODO: Add previous assignment code (if needed)
+        bool isRunning = true;
+        SDL_Event ev;
+
+        while(isRunning) {
+
+            while(SDL_PollEvent(&ev) != 0) {
+                if (ev.type == SDL_QUIT) {
+                    isRunning = false;
+                    SDL_Quit();
+                }
+            }
+            renderpass->render();
+            SDL_GL_SwapWindow(renderpass->window);
+        }
+
+        return;
     } else {
         /**
          * 1) Calculate the camera perspective, the camera-to-world transformation matrix and the aspect ratio.
@@ -117,9 +132,50 @@ void Renderer::render() {
          * 4) Generate a ray through each pixel center.
          * 5) Splat their contribution onto the image plane.
          */
-        // TODO: Add previous assignment code (if needed)
+        v3f EYE = scene.config.camera.o;
+        v3f AT = scene.config.camera.at;
+        v3f UP = scene.config.camera.up;
+        float fov = scene.config.camera.fov;
+
+        mat4f inverseView = glm::lookAt(EYE, AT, UP);
+        float aspectRatio = (float) scene.config.width / (float) scene.config.height;
+        float scale = tan(deg2rad*(fov * 0.5));
+
+        //Clear rgb buffer and instantiate sampler
+        integrator->rgb->clear();
+        Sampler sampler = Sampler(260631195);
+        Sampler sampler2 = Sampler(123);
+
+
+        int pixelX = 0;
+        int pixelY = 0;
+
+        for(pixelX = 0; pixelX < scene.config.width; pixelX++) {
+            for(pixelY = 0; pixelY < scene.config.height; pixelY++) {
+                //cout << "X: " << pixelX << "    " << "Y: " << pixelY << endl;
+                v3f colors = v3f(0.0f);
+                int i;
+                for(i = 0; i < scene.config.spp; i++){  //anti-aliasing component - implementation of A1 bonus
+                    float randomX = sampler.next();
+                    float randomY = sampler2.next();
+                    float pixelNDCX = (pixelX + randomX) / (float) scene.config.width;  //[0, 1]
+                    float pixelNDCY = (pixelY + randomY) / (float) scene.config.height; //[0, 1]
+                    float pixelScreenX = 2 * pixelNDCX - 1;     //[-1, 1]
+                    float pixelScreenY = 1 - 2 * pixelNDCY;     //[-1, 1]
+                    float pixelCameraX = (pixelScreenX) * aspectRatio * scale; //[-aspectRatio*scale, aspectRatio*scale]
+                    float pixelCameraY = (pixelScreenY) * scale;    //[-scale, scale]
+                    v3f dir = v3f(pixelCameraX, pixelCameraY, -1.f);
+                    v4f direction = glm::normalize(v4f(dir, 0.f) * inverseView);
+                    Ray ray = Ray(scene.config.camera.o, direction);
+                    v3f color = integrator->render(ray, sampler);
+                    colors += color;
+                }
+                integrator->rgb->data[scene.config.width * pixelY + pixelX] = (colors / (float) scene.config.spp);
+            }
+        }
     }
 }
+
 
 /**
  * Post-rendering step.
