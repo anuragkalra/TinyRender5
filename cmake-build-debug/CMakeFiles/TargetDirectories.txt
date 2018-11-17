@@ -1,0 +1,3 @@
+/Users/anuragkalra/workspaceComp598/a5_starter/a5/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/Users/anuragkalra/workspaceComp598/a5_starter/a5/cmake-build-debug/CMakeFiles/edit_cache.dir
+/Users/anuragkalra/workspaceComp598/a5_starter/a5/cmake-build-debug/CMakeFiles/tinyrender.dir
