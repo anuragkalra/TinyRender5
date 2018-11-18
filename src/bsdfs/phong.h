@@ -62,6 +62,38 @@ struct PhongBSDF : BSDF {
         v3f val(0.f);
 
         // TODO: Add previous assignment code (if needed)
+        //Check that the incoming and outgoing rays are headed in the correct directions; if not return black.
+        if(Frame::cosTheta(i.wo) <= 0 || Frame::cosTheta(i.wi) <= 0) {
+            return val;
+        }
+
+//        //diffuse reflectivity, the fraction of the incoming energy that is reflected diffusely
+        v3f rho_d = diffuseReflectance->eval(worldData,  i);
+//
+//        //specular reflectivity, the fraction of the incoming energy that is reflected specularly
+        v3f rho_s = specularReflectance->eval(worldData, i);
+//
+//        //Phong exponent. Higher values give more mirror-like specular reflection
+        float n = exponent->eval(worldData, i);
+//
+//        //the specular angle between the perfect specular reflect direction and the lighting direction (0 if negative).
+//        float alpha = glm::dot(i.wo, reflect(i.wi));
+//
+//        //diffuse_component = rho_d * INV_PI
+//        //specular_component = (rho_s) * (n+2) * INV_TWOPI * cos^n(alpha)
+//        float specular_component = 0.0f;
+//        if(alpha > 0) {
+//            specular_component = rho_s * (n + 2) * INV_TWOPI *
+//        }
+//        //phong_brdf = diffuse_component + specular_component
+        float alpha = glm::dot(i.wo, reflect(i.wi));
+        float specular = 0.0f;
+        if(alpha > 0) {
+            specular = (n + 2) * INV_PI * pow(alpha, n);
+        }
+        return ((rho_d / M_PI) + rho_s * specular) * Frame::cosTheta(i.wo);
+        //Evaluate the Phong BRDF
+        //Return the value multiplied by the cosine factor
 
         return val;
     }

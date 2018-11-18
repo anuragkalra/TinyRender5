@@ -2402,6 +2402,20 @@ renderpasses/gi.h
 bsdfs/mixture.h
 -
 
+/Users/anuragkalra/workspaceComp598/a5_starter/a5/src/core/renderpass.cpp
+core/core.h
+-
+core/renderpass.h
+/Users/anuragkalra/workspaceComp598/a5_starter/a5/src/core/core/renderpass.h
+bsdfs/diffuse.h
+-
+bsdfs/phong.h
+-
+string
+-
+fstream
+-
+
 /usr/local/Cellar/sdl2/2.0.8/include/SDL2/SDL.h
 SDL_main.h
 /usr/local/Cellar/sdl2/2.0.8/include/SDL2/SDL_main.h

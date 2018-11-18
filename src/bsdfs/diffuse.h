@@ -37,15 +37,22 @@ struct DiffuseBSDF : BSDF {
 
         // TODO: Add previous assignment code (if needed)
 
-        return val;
+        //Check that the incoming and outgoing rays are headed in the correct directions; if not return black.
+        if(Frame::cosTheta(i.wo) <= 0 || Frame::cosTheta(i.wi) <= 0) {
+            return val;
+        }
+        //Otherwise return the evaluated albedo divided by pi, and multiplied by the cosine factor cos theta_i
+        return (albedo->eval(worldData, i)) * INV_PI * Frame::cosTheta(i.wo);
     }
 
     float pdf(const SurfaceInteraction& i) const override {
         float pdf = 0.f;
 
         // TODO: Add previous assignment code (if needed)
-
-        return pdf;
+        if(Frame::cosTheta(i.wo) <= 0 || Frame::cosTheta(i.wi) <= 0) {
+            return pdf;
+        }
+        return Frame::cosTheta(i.wo) * INV_PI;
     }
 
     v3f sample(SurfaceInteraction& i, const v2f& sample, float* pdf) const override {
