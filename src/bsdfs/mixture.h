@@ -103,7 +103,7 @@ struct MixtureBSDF : BSDF {
         return pdf;
     }
 
-    // TODO - need to do
+    // TODO - COMPLETE
     v3f sample(SurfaceInteraction& i, const v2f& _sample, float* pdf_param) const override {
         v3f val(0.f);
 
