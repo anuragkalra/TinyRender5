@@ -93,67 +93,79 @@ struct PathTracerIntegrator : Integrator {
         v3f Li(0.f);
 
         SurfaceInteraction sInfo;
+        SurfaceInteraction tempSI;
+        tempSI.t = 0.0f;
+        tempSI.u = 0.1f;
 
         if (length(getEmission(hit)) != 0) {
             return getEmission(hit);
         }
 
-        int n_recursions = 0;
+        int num_recursions = 0;
         v3f totalBRDF(1.f);
 
-        while (n_recursions < m_maxDepth || m_maxDepth == -1) {
-            n_recursions ++;
+        while (num_recursions < m_maxDepth || m_maxDepth == -1) {
+            num_recursions ++;
+            tempSI.t = 1.0f;
+            //Russian roulette check
+            if (num_recursions >= m_rrDepth && m_maxDepth == -1) {
 
-            if (n_recursions >= m_rrDepth && m_maxDepth == -1) { // if it is russian roulette
                 if (sampler.next() > m_rrProb) {
                     return Li; // was zero
                 }
             }
 
-            float emPdf;
-            const Emitter &emitter = getEmitterByID(selectEmitter(sampler.next(), emPdf));
-
+            float emitterPdf;
             float pdf;
-            v3f emPos, emNormal;
+            const Emitter &emitter = getEmitterByID(selectEmitter(sampler.next(), emitterPdf));
+
+            float tempPdf = 0.0f;
+            v3f emPos;
+
             p2f sigmas = sampler.next2D();
+
+            v3f emNormal;
             sampleEmitterPosition(sampler, emitter, emNormal, emPos, pdf);
-            v3f wiW = normalize(emPos - hit.p);
 
-            hit.wi = normalize(hit.frameNs.toLocal(wiW));
+            v3f wiWFrame = normalize(emPos - hit.p);
 
-            Ray sRay = Ray(hit.p, wiW, Epsilon);
-            if (scene.bvh->intersect(sRay, sInfo)) {
+            hit.wi = normalize(hit.frameNs.toLocal(wiWFrame));
+
+            Ray shadowRay = Ray(hit.p, wiWFrame, Epsilon);
+            if (scene.bvh->intersect(shadowRay, sInfo)) {
                 v3f emission = getEmission(sInfo);
                 if (length(emission) != 0) {
-                    v3f BRDF = getBSDF(hit)->eval(hit);
+                    v3f BRDFselected = getBSDF(hit)->eval(hit);
 
-                    float cosTheta0 = glm::dot(-wiW, emNormal);
-                    cosTheta0 < 0 ? cosTheta0 = 0 : cosTheta0 < cosTheta0;
-                    float distance2 = glm::length2(emPos - hit.p);
-                    float jacob = cosTheta0 / distance2;
-                    Li += emission * BRDF* totalBRDF * jacob / (pdf * emPdf);
+                    float cosTheta0 = glm::dot(-wiWFrame, emNormal);
+                    if (cosTheta0 < 0) {
+                        cosTheta0 = 0;
+                    }
+                    float distance_2 = glm::length2(emPos - hit.p);
+                    float jacobianTerm = cosTheta0 / distance_2;
+                    Li += emission * BRDFselected * totalBRDF * jacobianTerm / (pdf * emitterPdf);
                 } else {
+                    tempPdf += 1.0f;
                     Li += v3f(0.f);
                 }
             }
 
-            // INDIRECT ILLUMINATION
             pdf = 0;
-            v3f BRDF = getBSDF(hit) -> sample(hit,sampler.next2D(),&pdf);
-            wiW = glm::normalize(hit.frameNs.toWorld(hit.wi));
-            Ray nextRay = Ray(hit.p, wiW, Epsilon);
+            v3f BRDFSelect2 = getBSDF(hit) -> sample(hit,sampler.next2D(),&pdf);
+
+            wiWFrame = glm::normalize(hit.frameNs.toWorld(hit.wi));
+            Ray nextRay = Ray(hit.p, wiWFrame, Epsilon);
             SurfaceInteraction nextHit;
 
             if(scene.bvh ->intersect(nextRay,nextHit))
             {
-                v3f nextLr = getEmission(nextHit);
-                if(glm::length(nextLr)!=0)
-                {
+                v3f nextLreflected = getEmission(nextHit);
+
+                if(glm::length(nextLreflected) != 0) {
                     return Li;
-                } else
-                {
-                    totalBRDF = totalBRDF*BRDF;
-                    hit=nextHit;
+                } else {
+                    totalBRDF = totalBRDF * BRDFSelect2;
+                    hit = nextHit;
                     continue;
                 }
             }
