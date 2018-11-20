@@ -105,7 +105,32 @@ struct GIPass : RenderPass {
 
         // TODO: Implement this
         // TODO: Task 2.1.2 Runtime Pass: Precomputed Radiance Lookup
+
         // NOTE: see renderpasses/normal.h (85-94)
+        // Define shader to use
+        glUseProgram(shader);
+
+        // Update camera
+        glm::mat4 model, view, projection;
+        camera.Update();
+        camera.GetMatricies(projection, view, model);
+
+        // Pass uniforms
+        glUniformMatrix4fv(modelMatUniform, 1, GL_FALSE, &(modelMat[0][0]));
+        glUniformMatrix4fv(viewMatUniform, 1, GL_FALSE, &(view[0][0]));
+        glUniformMatrix4fv(projectionMatUniform, 1, GL_FALSE, &(projection[0][0]));
+
+        // Draw
+        for (auto& object : objects) {
+            /**
+             * 1) Bind vertex array of current object.
+             * 2) Draw its triangles.
+             * 3) Bind vertex array to 0.
+             */
+            glBindVertexArray(object.vao);
+            glDrawArrays(GL_TRIANGLES, 0, object.nVerts);
+            glBindVertexArray(0);
+        }
 
         // NOTE: attributes in the VBOs are position and color
         RenderPass::render();

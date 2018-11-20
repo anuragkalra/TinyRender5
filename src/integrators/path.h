@@ -82,23 +82,75 @@ struct PathTracerIntegrator : Integrator {
     //BRDF importance sampling for the indirect lighting contribution
     v3f renderExplicit(const Ray& ray, Sampler& sampler, SurfaceInteraction& hit) const {
         v3f Li(0.f);
-        //Pseudocode
 
-        /**
-         * direct illumination
-         * for all lights {
-         *  L_d += contribution from light //use surface area importance sampling
-         * }
-         */
+        SurfaceInteraction sInfo;
 
-        // TODO: Implement this
-        //use sampleEmitterPosition() to retrieve a uniformly sampled point on an arbitrary mesh emitter
-            //along with corresponding normal, sampling PDF, and radiance
-        //
+        if (length(getEmission(hit)) != 0) {
+            return getEmission(hit);
+        }
 
-        // TODO: Task 1.3.2 Russian Roulette Path Termination
-        //m_rrDepth to determine whether to employ Russian Roulette termination at your current path vertex
-        //m_rrProb as your RR termination probability
+        int n_recursions = 0;
+        v3f totalBRDF(1.f);
+
+        while (n_recursions < m_maxDepth || m_maxDepth == -1) {
+            n_recursions ++;
+
+            if (n_recursions >= m_rrDepth && m_maxDepth == -1) { // if it is russian roulette
+                if (sampler.next() > m_rrProb) {
+                    return Li; // was zero
+                }
+            }
+
+            float emPdf;
+            const Emitter &emitter = getEmitterByID(selectEmitter(sampler.next(), emPdf));
+
+            float pdf;
+            v3f emPos, emNormal;
+            p2f sigmas = sampler.next2D();
+            sampleEmitterPosition(sampler, emitter, emNormal, emPos, pdf);
+            v3f wiW = normalize(emPos - hit.p);
+
+            hit.wi = normalize(hit.frameNs.toLocal(wiW));
+
+            Ray sRay = Ray(hit.p, wiW, Epsilon);
+            if (scene.bvh->intersect(sRay, sInfo)) {
+                v3f emission = getEmission(sInfo);
+                if (length(emission) != 0) {
+                    v3f BRDF = getBSDF(hit)->eval(hit);
+
+                    float cosTheta0 = glm::dot(-wiW, emNormal);
+                    cosTheta0 < 0 ? cosTheta0 = 0 : cosTheta0 < cosTheta0;
+                    float distance2 = glm::length2(emPos - hit.p);
+                    float jacob = cosTheta0 / distance2;
+                    Li += emission * BRDF* totalBRDF * jacob / (pdf * emPdf);
+                } else {
+                    Li += v3f(0.f);
+                }
+            }
+
+            // INDIRECT ILLUMINATION
+            pdf = 0;
+            v3f BRDF = getBSDF(hit) -> sample(hit,sampler.next2D(),&pdf);
+            wiW = glm::normalize(hit.frameNs.toWorld(hit.wi));
+            Ray nextRay = Ray(hit.p, wiW, Epsilon);
+            SurfaceInteraction nextHit;
+
+            if(scene.bvh ->intersect(nextRay,nextHit))
+            {
+                v3f nextLr = getEmission(nextHit);
+                if(glm::length(nextLr)!=0)
+                {
+                    return Li;
+                } else
+                {
+                    totalBRDF = totalBRDF*BRDF;
+                    hit=nextHit;
+                    continue;
+                }
+            }
+
+        }
+
         return Li;
     }
 
