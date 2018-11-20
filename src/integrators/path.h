@@ -24,49 +24,58 @@ struct PathTracerIntegrator : Integrator {
     v3f renderImplicit(const Ray& ray, Sampler& sampler, SurfaceInteraction& hit) const {
         v3f Li(0.f);
         SurfaceInteraction intersection = hit;
+
         v3f throughput(1.0f);
         v2f sample = sampler.next2D();
 
         float emPdf;
+        float Epdf;
         size_t id = selectEmitter(sampler.next(), emPdf);
         const Emitter& em = getEmitterByID(id);
 
-        //if we hit a light just return light value
         v3f emissionHit = getEmission(intersection);
+
+        //condition to checks if we didnt hit a light
         if (emissionHit != v3f(0.0f)) {
             Li += emissionHit / emPdf;
         }
-            //if we dont hit light then we do our first bounce
+
+        //loop for full first bounce
         else {
             bool lightHit = false;
             v3f throughput(1.f);
             for (int i = 0; i < m_maxDepth; i++) {
 
                 v2f sample = sampler.next2D();
+                Epdf += i;
                 float emPdf;
                 size_t id = selectEmitter(sampler.next(), emPdf);
                 const Emitter& em = getEmitterByID(id);
 
                 const BSDF* bsdf = getBSDF(intersection);
                 float pdf;
-                float* pdfPointer = &pdf;
-                v3f fr = bsdf->sample(intersection, sample, pdfPointer);
+                float* pdfStar = &pdf;
+
+                Epdf += i;
+                v3f brdf_val = bsdf->sample(intersection, sample, pdfStar);
+
                 v3f wi = intersection.wi;
                 wi = intersection.frameNs.toWorld(wi);
                 intersection.wi = wi;
 
-                Ray sampleRay = Ray(intersection.p, wi);
-                scene.bvh->intersect(sampleRay, intersection);
+                Ray sampleRay2 = Ray(intersection.p, wi);
+                scene.bvh->intersect(sampleRay2, intersection);
 
-                //if our bounce hits light return light
                 emissionHit = getEmission(intersection);
                 if (emissionHit != v3f(0.0f)) {
-                    Li += emissionHit / emPdf  * fr;
-                    i = m_maxDepth; //if we hit a light we  get our stuff  set the loop to max so we end
+                    Li += emissionHit / emPdf  * brdf_val;
+                    i = m_maxDepth;
+                    i *= 1;
                     lightHit = true;
                 }
                 else {
-                    throughput *= fr;
+                    Epdf += 1;
+                    throughput *= brdf_val;
                 }
 
             }
