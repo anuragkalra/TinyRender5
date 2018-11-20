@@ -70,19 +70,22 @@ struct MixtureBSDF : BSDF {
         v3f val = v3f(0);
         v3f wo = i.wo;
         v3f wi = i.wi;
-        float z_in = Frame::cosTheta(wi);
-        float z_out = Frame::cosTheta(wo);
-        if (z_in > 0 && z_out > 0) { //check correct direction
+        float Z_in = Frame::cosTheta(wi);
+        float Z_out = Frame::cosTheta(wo);
+        if (Z_out > 0 && Z_in > 0) {
             v3f rho_d = diffuseReflectance->eval(worldData, i);
             v3f rho_s = specularReflectance->eval(worldData, i);
+
             float n = exponent->eval(worldData, i);
-            float cos_a = fmax(glm::dot(glm::normalize(reflect(wo)), wi), 0.0);
-            cos_a = fmin(1, cos_a); //make sure cos_a is not more than 1 due to precision errors
-            val = rho_d * INV_PI + rho_s * INV_TWOPI * (n + 2)*pow(cos_a, n);
-            return val * z_in * scale;
+
+            float cos_alpha = fmax(glm::dot(glm::normalize(reflect(wo)), wi), 0.0);
+            cos_alpha = fmin(1, cos_alpha);
+            val = rho_d * INV_PI + rho_s * INV_TWOPI * (n + 2) * pow(cos_alpha, n);
+            v3f total = val * Z_in * scale;
+            return total;
         }
         else {
-            return v3f(0);
+            return v3f(0.f);
         }
     }
 
@@ -95,36 +98,42 @@ struct MixtureBSDF : BSDF {
         v3f wrW = normalize(i.frameNs.toWorld(reflect(i.wo)));
         Frame wrFrame = Frame(wrW);
         v3f wiR =  wrFrame.toLocal(i.frameNs.toWorld(i.wi));
-        float specularPdf = max(Warp :: squareToPhongLobePdf(wiR, expo),0.f);  // TODO: put this back to reflected frame
-        //float specularPdf = max(Warp :: squareToPhongLobePdf(i.wi, expo),0.f);  // TODO: put this back to reflected frame
-        float diffusePdf = max(Warp::squareToCosineHemispherePdf(i.wi),0.f);
-        pdf = specularPdf * specularSamplingWeight + diffusePdf *(1-specularSamplingWeight);
 
-        return pdf;
+        float diffusePdf = max(Warp::squareToCosineHemispherePdf(i.wi), 0.f);
+        float specularPdf = max(Warp::squareToPhongLobePdf(wiR, expo), 0.f);
+        float specularCOMP = specularPdf * specularSamplingWeight;
+        float diffuseCOMP = diffusePdf * (1 - specularSamplingWeight);
+        pdf = specularPdf * specularSamplingWeight + diffusePdf * (1 - specularSamplingWeight);
+        float total_contribution = specularCOMP + diffuseCOMP;
+        return total_contribution;
+
     }
 
     // TODO - COMPLETE
     v3f sample(SurfaceInteraction& i, const v2f& _sample, float* pdf_param) const override {
         v3f val(0.f);
 
-        if (_sample.x < specularSamplingWeight) { //do specular
-            v2f new_sample = v2f(_sample.x / specularSamplingWeight, _sample.y);
-            v3f wi = Warp::squareToPhongLobe(new_sample, exponent->eval(worldData, i));
-            v3f refl = reflect(i.wo); //get reflection dir in local coords
-            wi = glm::toMat4(glm::quat(v3f(0, 0, 1), refl)) * v4f(wi, 1); //rotate the lobe to be around the reflection dir in local
-            i.wi = wi; //set the i.wi to be rotated around the relection of wo
+        //if specular
+        if (_sample.x < specularSamplingWeight) {
+            v2f new_sample2 = v2f(_sample.x / specularSamplingWeight, _sample.y);
+            v3f wi = Warp::squareToPhongLobe(new_sample2, exponent->eval(worldData, i));
+            v3f reflected = reflect(i.wo);
+            wi = glm::toMat4(glm::quat(v3f(0, 0, 1), reflected)) * v4f(wi, 1);
+            i.wi = wi;
         }
-        else { //do diffuse
-            v2f new_sample = v2f((_sample.x-specularSamplingWeight) / (1-specularSamplingWeight), _sample.y);
-            i.wi = Warp::squareToCosineHemisphere(new_sample);
+        //otherwise do diffuse
+        else {
+            v2f new_sample2 = v2f((_sample.x-specularSamplingWeight) / (1-specularSamplingWeight), _sample.y);
+            //warp this new sample
+            i.wi = Warp::squareToCosineHemisphere(new_sample2);
         }
         float pdf_val = pdf(i);
         *pdf_param = pdf_val;
-        if (pdf_val == 0.f)// check if pdf val is well defined
+        if (pdf_val == 0.f) {
             val = v3f(0.f);
-        else
+        } else {
             return eval(i) / pdf_val;
-
+        }
     }
 
     std::string toString() const override { return "Mixture"; }

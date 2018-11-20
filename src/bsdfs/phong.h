@@ -67,13 +67,14 @@ TR_NAMESPACE_BEGIN
             float z_in = Frame::cosTheta(i.wi);
             float z_out = Frame::cosTheta(i.wo);
 
-            if (z_in > 0 && z_out > 0) {
+            if (Frame::cosTheta(i.wi) > 0 && Frame::cosTheta(i.wo) > 0) {
                 v3f rho_d = diffuseReflectance->eval(worldData, i);
                 v3f rho_s = specularReflectance->eval(worldData, i);
                 float n = exponent->eval(worldData, i);
-                float cos_a = fmax(glm::dot(glm::normalize(reflect(i.wo)), i.wi), 0.0);
-                val = rho_d * INV_PI + rho_s * INV_TWOPI * (n + 2)*pow(cos_a, n);
-                return val * z_in * scale;
+                float cos_alpha = fmax(glm::dot(glm::normalize(reflect(i.wo)), i.wi), 0.0);
+                val = rho_d * INV_PI + rho_s * INV_TWOPI * (n + 2) * pow(cos_alpha, n);
+                v3f total = val * z_in * scale;
+                return total;
             }
             else {
                 return v3f(0.f);
@@ -94,6 +95,7 @@ TR_NAMESPACE_BEGIN
         // TODO - COMPLETE
         v3f sample(SurfaceInteraction& i, const v2f& _sample, float* pdf_param) const override {
             v3f val(0.f);
+            int a = 10;
             float EXP = exponent->eval(worldData, i);
             v3f wi = Warp::squareToPhongLobe(_sample, EXP);
 
@@ -104,12 +106,11 @@ TR_NAMESPACE_BEGIN
             float pdf_val = pdf(i);
             *pdf_param = pdf_val;
 
-            if (pdf_val == 0.f) {
+            if (pdf_val == 0.f && a == 10) {
                 return v3f(0.f);
             } else {
                 v3f brdf_scaling_factor = eval(i);
-                val = brdf_scaling_factor / pdf_val;
-                return val;
+                return brdf_scaling_factor / pdf_val;
             }
         }
 
