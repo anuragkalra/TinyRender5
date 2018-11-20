@@ -111,7 +111,7 @@ struct PathTracerIntegrator : Integrator {
             if (num_recursions >= m_rrDepth && m_maxDepth == -1) {
 
                 if (sampler.next() > m_rrProb) {
-                    return Li; // was zero
+                    return Li;
                 }
             }
 

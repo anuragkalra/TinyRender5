@@ -71,8 +71,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/integrators/path.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-388">
-              <caret line="120" selection-start-line="120" selection-end-line="120" />
+            <state relative-caret-position="437">
+              <caret line="113" column="30" selection-start-line="113" selection-start-column="30" selection-end-line="113" selection-end-column="30" />
             </state>
           </provider>
         </entry>
@@ -282,12 +282,12 @@
       <workItem from="1542493187286" duration="11124000" />
       <workItem from="1542580690998" duration="678000" />
       <workItem from="1542595494575" duration="6906000" />
-      <workItem from="1542656622424" duration="27270000" />
+      <workItem from="1542656622424" duration="27318000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="47073000" />
+    <option name="totallyTimeSpent" value="47121000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -548,8 +548,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/integrators/path.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-388">
-          <caret line="120" selection-start-line="120" selection-end-line="120" />
+        <state relative-caret-position="437">
+          <caret line="113" column="30" selection-start-line="113" selection-start-column="30" selection-end-line="113" selection-end-column="30" />
         </state>
       </provider>
     </entry>
