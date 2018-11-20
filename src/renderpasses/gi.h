@@ -40,6 +40,15 @@ struct GIPass : RenderPass {
         GLObject& obj = objects[objectIdx];
 
         // TODO: Implement this
+        // TODO: Task 2.1.1 Precomputation Pass: Computing and Storing Radiance in VBOs
+        // NOTE: see renderpass.cpp (229-251)
+
+        // Use getPrimitiveID() and getMaterialID() to properly initialize
+            //some of the SurfaceInteraction attributes
+
+        // You can access a given object's vertex data using
+            //scene.getObjectVertexPosition()
+            //scene.getObjectVertexNormal()
 
         // VBO
         glGenVertexArrays(1, &obj.vao);
@@ -95,7 +104,10 @@ struct GIPass : RenderPass {
         glEnable(GL_DEPTH_TEST);
 
         // TODO: Implement this
+        // TODO: Task 2.1.2 Runtime Pass: Precomputed Radiance Lookup
+        // NOTE: see renderpasses/normal.h (85-94)
 
+        // NOTE: attributes in the VBOs are position and color
         RenderPass::render();
     }
 

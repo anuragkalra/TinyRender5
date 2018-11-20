@@ -32,34 +32,43 @@ struct DiffuseBSDF : BSDF {
             combinedType |= components[i];
     }
 
+    // TODO - COMPLETE
     v3f eval(const SurfaceInteraction& i) const override {
         v3f val(0.f);
 
-        // TODO: Add previous assignment code (if needed)
-
-        //Check that the incoming and outgoing rays are headed in the correct directions; if not return black.
         if(Frame::cosTheta(i.wo) <= 0 || Frame::cosTheta(i.wi) <= 0) {
             return val;
         }
-        //Otherwise return the evaluated albedo divided by pi, and multiplied by the cosine factor cos theta_i
-        return (albedo->eval(worldData, i)) * INV_PI * Frame::cosTheta(i.wo);
+
+        return (albedo->eval(worldData, i)) * INV_PI * max(0.f, Frame::cosTheta(i.wi));
     }
 
+    // TODO - COMPLETE
     float pdf(const SurfaceInteraction& i) const override {
         float pdf = 0.f;
 
-        // TODO: Add previous assignment code (if needed)
         if(Frame::cosTheta(i.wo) <= 0 || Frame::cosTheta(i.wi) <= 0) {
             return pdf;
         }
-        return Frame::cosTheta(i.wo) * INV_PI;
+        pdf = max(i.wi.z/ M_PI , 0.f);
+        return pdf;
     }
 
-    v3f sample(SurfaceInteraction& i, const v2f& sample, float* pdf) const override {
+    // TODO - COMPLETE
+    v3f sample(SurfaceInteraction& i, const v2f& sample, float* pdf_param) const override {
         v3f val(0.f);
 
-        // TODO: Add previous assignment code (if needed)
+        i.wi = Warp::squareToCosineHemisphere(sample);
 
+        float pdf_val = pdf(i);
+        *pdf_param = pdf_val;
+
+        v3f brdf_factor = eval(i);
+
+        if (pdf_val > 0.f)
+            val = brdf_factor / pdf_val;
+        else
+            val = v3f(0);
         return val;
     }
 

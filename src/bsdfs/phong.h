@@ -58,60 +58,56 @@ struct PhongBSDF : BSDF {
         return v3f(-d.x, -d.y, d.z);
     }
 
+    // TODO - COMPLETE
     v3f eval(const SurfaceInteraction& i) const override {
         v3f val(0.f);
-
-        // TODO: Add previous assignment code (if needed)
-        //Check that the incoming and outgoing rays are headed in the correct directions; if not return black.
-        if(Frame::cosTheta(i.wo) <= 0 || Frame::cosTheta(i.wi) <= 0) {
-            return val;
+        v3f wo = i.wo;
+        v3f wi = i.wi;
+        float z_in = Frame::cosTheta(wi);
+        float z_out = Frame::cosTheta(wo);
+        if (z_in > 0 && z_out > 0) { //check correct direction
+            v3f rho_d = diffuseReflectance->eval(worldData, i);
+            v3f rho_s = specularReflectance->eval(worldData, i);
+            float n = exponent->eval(worldData, i);
+            float cos_a = fmax(glm::dot(glm::normalize(reflect(wo)), wi), 0.0);
+            val = rho_d * INV_PI + rho_s * INV_TWOPI * (n + 2)*pow(cos_a, n);
+            return val * z_in * scale;
         }
-
-//        //diffuse reflectivity, the fraction of the incoming energy that is reflected diffusely
-        v3f rho_d = diffuseReflectance->eval(worldData,  i);
-//
-//        //specular reflectivity, the fraction of the incoming energy that is reflected specularly
-        v3f rho_s = specularReflectance->eval(worldData, i);
-//
-//        //Phong exponent. Higher values give more mirror-like specular reflection
-        float n = exponent->eval(worldData, i);
-//
-//        //the specular angle between the perfect specular reflect direction and the lighting direction (0 if negative).
-//        float alpha = glm::dot(i.wo, reflect(i.wi));
-//
-//        //diffuse_component = rho_d * INV_PI
-//        //specular_component = (rho_s) * (n+2) * INV_TWOPI * cos^n(alpha)
-//        float specular_component = 0.0f;
-//        if(alpha > 0) {
-//            specular_component = rho_s * (n + 2) * INV_TWOPI *
-//        }
-//        //phong_brdf = diffuse_component + specular_component
-        float alpha = glm::dot(i.wo, reflect(i.wi));
-        float specular = 0.0f;
-        if(alpha > 0) {
-            specular = (n + 2) * INV_PI * pow(alpha, n);
+        else {
+            return v3f(0);
         }
-        return ((rho_d / M_PI) + rho_s * specular) * Frame::cosTheta(i.wo);
-        //Evaluate the Phong BRDF
-        //Return the value multiplied by the cosine factor
-
-        return val;
     }
 
+    // TODO - COMPLETE
     float pdf(const SurfaceInteraction& i) const override {
-        float pdf = 0.f;
+        v3f refl = reflect(i.wo); //get reflection dir in local coords
+        v3f v = glm::toMat4(glm::quat(refl, v3f(0, 0, 1))) * v4f(i.wi, 1); //rotate the lobe to be around the z axis in local
 
-        // TODO: Add previous assignment code (if needed)
-
+        //Warp::squareToPhongLobePdf needs phong lobe centered around z-axis
+        float pdf = Warp::squareToPhongLobePdf(v, exponent->eval(worldData, i));
         return pdf;
     }
 
-    v3f sample(SurfaceInteraction& i, const v2f& _sample, float* pdf) const override {
+    // TODO - COMPLETE
+    v3f sample(SurfaceInteraction& i, const v2f& _sample, float* pdf_param) const override {
         v3f val(0.f);
+        v3f wi = Warp::squareToPhongLobe(_sample, exponent->eval(worldData, i));
 
-        // TODO: Add previous assignment code (if needed)
+        v3f refl = reflect(i.wo); //get reflection dir in local coords
+        wi = glm::toMat4(glm::quat(v3f(0, 0, 1), refl)) * v4f(wi, 1); //rotate the lobe to be around the reflection dir in local
+        i.wi = wi; //set the i.wi to be rotated around the relection of wo
 
-        return val;
+        float pdf_val = pdf(i);
+        *pdf_param = pdf_val;
+
+        if (pdf_val == 0.f) { // check if pdf val is well defined
+            return v3f(0);
+        }
+        else {
+            v3f brdf_factor = eval(i);
+            val = brdf_factor / pdf_val;
+            return val;
+        }
     }
 
     std::string toString() const override { return "Phong"; }

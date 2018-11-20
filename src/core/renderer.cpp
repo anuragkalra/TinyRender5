@@ -152,7 +152,10 @@ void Renderer::render() {
 
         for(pixelX = 0; pixelX < scene.config.width; pixelX++) {
             for(pixelY = 0; pixelY < scene.config.height; pixelY++) {
-                //cout << "X: " << pixelX << "    " << "Y: " << pixelY << endl;
+                if(pixelX % 10 == 0) {
+                //    cout << "X: " << pixelX << "    " << "Y: " << pixelY << endl;
+                }
+
                 v3f colors = v3f(0.0f);
                 int i;
                 for(i = 0; i < scene.config.spp; i++){  //anti-aliasing component - implementation of A1 bonus
