@@ -12,7 +12,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cb997cc1-5e05-4a55-a0a7-6fe445354008" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/src/integrators/path.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/integrators/path.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/renderpasses/gi.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/renderpasses/gi.h" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -38,16 +38,17 @@
           <entry key="cpp" value="15" />
           <entry key="exr" value="3" />
           <entry key="fs" value="2" />
-          <entry key="h" value="74" />
+          <entry key="h" value="75" />
           <entry key="mtl" value="3" />
           <entry key="obj" value="3" />
           <entry key="toml" value="31" />
+          <entry key="vector" value="1" />
           <entry key="vs" value="3" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="ObjectiveC" value="94" />
+          <entry key="ObjectiveC" value="96" />
           <entry key="PLAIN_TEXT" value="9" />
           <entry key="TOML file" value="31" />
         </counts>
@@ -55,23 +56,23 @@
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="cpp" value="28" />
-          <entry key="h" value="7439" />
+          <entry key="h" value="7781" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="Doxygen file" value="8" />
-          <entry key="ObjectiveC" value="7459" />
+          <entry key="ObjectiveC" value="7801" />
         </counts>
       </usages-collector>
     </session>
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/integrators/path.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="437">
+            <state relative-caret-position="-371">
               <caret line="113" column="30" selection-start-line="113" selection-start-column="30" selection-end-line="113" selection-end-column="30" />
             </state>
           </provider>
@@ -86,11 +87,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/core/integrator.cpp">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/renderpasses/gi.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="15">
-              <caret line="45" column="19" selection-start-line="45" selection-start-column="19" selection-end-line="45" selection-end-column="19" />
+            <state relative-caret-position="-1683">
+              <caret line="43" column="21" selection-start-line="43" selection-start-column="21" selection-end-line="43" selection-end-column="21" />
             </state>
           </provider>
         </entry>
@@ -116,11 +117,11 @@
         <option value="$PROJECT_DIR$/src/core/renderer.cpp" />
         <option value="$PROJECT_DIR$/src/renderpasses/normal.h" />
         <option value="$PROJECT_DIR$/src/core/math.h" />
-        <option value="$PROJECT_DIR$/src/renderpasses/gi.h" />
         <option value="$PROJECT_DIR$/src/bsdfs/diffuse.h" />
         <option value="$PROJECT_DIR$/src/bsdfs/phong.h" />
         <option value="$PROJECT_DIR$/src/bsdfs/mixture.h" />
         <option value="$PROJECT_DIR$/src/integrators/path.h" />
+        <option value="$PROJECT_DIR$/src/renderpasses/gi.h" />
       </list>
     </option>
   </component>
@@ -282,12 +283,12 @@
       <workItem from="1542493187286" duration="11124000" />
       <workItem from="1542580690998" duration="678000" />
       <workItem from="1542595494575" duration="6906000" />
-      <workItem from="1542656622424" duration="27318000" />
+      <workItem from="1542656622424" duration="27897000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="47121000" />
+    <option name="totallyTimeSpent" value="47700000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -302,12 +303,12 @@
     <frame x="0" y="0" width="1680" height="1050" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.3021978" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.3021978" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32959184" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.23469388" />
+      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.23469388" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.18673469" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -504,13 +505,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/renderpasses/gi.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="293">
-          <caret line="59" column="14" selection-start-line="59" selection-start-column="14" selection-end-line="59" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/bsdfs/mixture.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="482">
@@ -532,6 +526,13 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/integrators/path.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-371">
+          <caret line="113" column="30" selection-start-line="113" selection-start-column="30" selection-end-line="113" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/core/integrator.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="15">
@@ -546,10 +547,17 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/integrators/path.h">
+    <entry file="file:///Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1/vector">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="437">
-          <caret line="113" column="30" selection-start-line="113" selection-start-column="30" selection-end-line="113" selection-end-column="30" />
+        <state relative-caret-position="241">
+          <caret line="2003" column="25" selection-start-line="2003" selection-start-column="25" selection-end-line="2003" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/renderpasses/gi.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1683">
+          <caret line="43" column="21" selection-start-line="43" selection-start-column="21" selection-end-line="43" selection-end-column="21" />
         </state>
       </provider>
     </entry>

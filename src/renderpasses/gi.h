@@ -53,45 +53,57 @@ struct GIPass : RenderPass {
         obj.nVerts = scene.getObjectNbVertices(objectIdx);
         obj.vertices.resize(obj.nVerts * N_ATTR_PER_VERT);
 
-        int k= 0;
+        int k = 0;
+        Sampler sampler = Sampler(260631195);
 
         for (int j = 0; j < obj.nVerts; j++) {
             size_t i = j;
-            //printf("Object %d/%d: %d/%d\n", objectIdx+1, objects.size(), j+1, obj.nVerts);
-            Sampler sampler = Sampler(260631195);
+
 
             v3f normal = scene.getObjectVertexNormal(objectIdx, i);
-            v3f pos = scene.getObjectVertexPosition(objectIdx, i);
+            v3f position = scene.getObjectVertexPosition(objectIdx, i);
 
+            //initialize hit
             SurfaceInteraction hit = SurfaceInteraction();
-            hit.wo = v3f(0, 0, 1); //local normal
-            hit.p = pos+normal*Epsilon;
-            hit.primID = scene.getPrimitiveID(i);
-            hit.matID = scene.getMaterialID(objectIdx, hit.primID);
+
+            //populate hit data structure
             hit.shapeID = objectIdx;
             hit.frameNg = Frame(normal);
             hit.frameNs = Frame(normal);
 
-            // Position
-            obj.vertices[k + 0] = pos.x;
-            obj.vertices[k + 1] = pos.y;
-            obj.vertices[k + 2] = pos.z;
-            Ray _ray(v3f(0), v3f(1, 0, 0));
-            v3f RGB = v3f(0);
+            hit.wo = v3f(0, 0, 1); //local normal
+            hit.p = position+normal*Epsilon;
+            hit.primID = scene.getPrimitiveID(i);
+            hit.matID = scene.getMaterialID(objectIdx, hit.primID);
 
+
+
+
+            // Build position information in obj vertices 0 -> 2
+            obj.vertices[k + 0] = position.x;
+            obj.vertices[k + 1] = position.y;
+            obj.vertices[k + 2] = position.z;
+
+            Ray ShRay(v3f(0), v3f(1, 0, 0));
+            v3f RGB_block = v3f(0);
+
+            //repeat for number of samples per vertex . need to divide total by number after
             for (int l = 0; l < m_samplePerVertex; l++) {
-                RGB += m_ptIntegrator->renderExplicit(_ray, sampler, hit);
+                RGB_block += m_ptIntegrator->renderExplicit(ShRay, sampler, hit);
             }
 
-            RGB /= m_samplePerVertex;
-            // RGB
-            obj.vertices[k + 3] = RGB.x;
-            obj.vertices[k + 4] = RGB.y;
-            obj.vertices[k + 5] = RGB.z;
+            RGB_block /= m_samplePerVertex;
+            // RGB_block
+            obj.vertices[k + 3] = RGB_block.x;
+            obj.vertices[k + 4] = RGB_block.y;
+            obj.vertices[k + 5] = RGB_block.z;
 
             k += N_ATTR_PER_VERT;
         }
 
+        // required OpenGL calls for building VBO
+        //referred to below link as a resource
+        //http://www.songho.ca/opengl/gl_vbo.html
         // VBO
         glGenVertexArrays(1, &obj.vao);
         glBindVertexArray(obj.vao);
@@ -163,6 +175,7 @@ struct GIPass : RenderPass {
         glUniformMatrix4fv(projectionMatUniform, 1, GL_FALSE, &(projection[0][0]));
 
         // Draw
+        // TODO - COMPLETE
         for (auto& object : objects) {
             /**
              * 1) Bind vertex array of current object.
