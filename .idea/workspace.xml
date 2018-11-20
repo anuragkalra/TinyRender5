@@ -12,8 +12,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cb997cc1-5e05-4a55-a0a7-6fe445354008" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/integrators/path.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/integrators/path.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/renderpasses/gi.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/renderpasses/gi.h" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
@@ -37,33 +35,33 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="cpp" value="11" />
-          <entry key="exr" value="1" />
+          <entry key="cpp" value="13" />
+          <entry key="exr" value="3" />
           <entry key="fs" value="2" />
-          <entry key="h" value="68" />
+          <entry key="h" value="70" />
           <entry key="mtl" value="3" />
           <entry key="obj" value="3" />
-          <entry key="toml" value="27" />
+          <entry key="toml" value="31" />
           <entry key="vs" value="3" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="ObjectiveC" value="84" />
-          <entry key="PLAIN_TEXT" value="7" />
-          <entry key="TOML file" value="27" />
+          <entry key="ObjectiveC" value="88" />
+          <entry key="PLAIN_TEXT" value="9" />
+          <entry key="TOML file" value="31" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="cpp" value="28" />
-          <entry key="h" value="6417" />
+          <entry key="h" value="6466" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="Doxygen file" value="8" />
-          <entry key="ObjectiveC" value="6437" />
+          <entry key="ObjectiveC" value="6486" />
         </counts>
       </usages-collector>
     </session>
@@ -109,11 +107,20 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/integrators/path.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="838">
+            <state relative-caret-position="422">
               <caret line="153" column="18" selection-start-line="153" selection-start-column="18" selection-end-line="153" selection-end-column="18" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/renderpasses/gi.h">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="293">
+              <caret line="59" column="14" selection-start-line="59" selection-start-column="14" selection-end-line="59" selection-end-column="14" />
             </state>
           </provider>
         </entry>
@@ -141,8 +148,8 @@
         <option value="$PROJECT_DIR$/src/bsdfs/diffuse.h" />
         <option value="$PROJECT_DIR$/src/bsdfs/phong.h" />
         <option value="$PROJECT_DIR$/src/bsdfs/mixture.h" />
-        <option value="$PROJECT_DIR$/src/renderpasses/gi.h" />
         <option value="$PROJECT_DIR$/src/integrators/path.h" />
+        <option value="$PROJECT_DIR$/src/renderpasses/gi.h" />
       </list>
     </option>
   </component>
@@ -193,22 +200,14 @@
               <item name="a5" type="462c0819:PsiDirectoryNode" />
               <item name="data" type="462c0819:PsiDirectoryNode" />
               <item name="a5" type="462c0819:PsiDirectoryNode" />
-              <item name="cbox" type="462c0819:PsiDirectoryNode" />
-              <item name="tinyrender" type="462c0819:PsiDirectoryNode" />
+              <item name="cubebox" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="tinyrender" type="b2602c69:ProjectViewProjectNode" />
               <item name="a5" type="462c0819:PsiDirectoryNode" />
               <item name="data" type="462c0819:PsiDirectoryNode" />
               <item name="a5" type="462c0819:PsiDirectoryNode" />
-              <item name="livingroom" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="tinyrender" type="b2602c69:ProjectViewProjectNode" />
-              <item name="a5" type="462c0819:PsiDirectoryNode" />
-              <item name="data" type="462c0819:PsiDirectoryNode" />
-              <item name="a5" type="462c0819:PsiDirectoryNode" />
-              <item name="livingroom" type="462c0819:PsiDirectoryNode" />
+              <item name="cubebox" type="462c0819:PsiDirectoryNode" />
               <item name="tinyrender" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -272,7 +271,7 @@
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="tinyrender" type="CMakeRunConfiguration" factoryName="Application" PROGRAM_PARAMS="../data/a5/cbox/tinyrender/cbox_path_explicit_1_bounce.toml" PASS_PARENT_ENVS_2="true" PROJECT_NAME="tinyrender" TARGET_NAME="tinyrender" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="tinyrender" RUN_TARGET_NAME="tinyrender">
+    <configuration name="tinyrender" type="CMakeRunConfiguration" factoryName="Application" PROGRAM_PARAMS="../data/a5/cubebox/tinyrender/cubebox_gi_realtime.toml" PASS_PARENT_ENVS_2="true" PROJECT_NAME="tinyrender" TARGET_NAME="tinyrender" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="tinyrender" RUN_TARGET_NAME="tinyrender">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
@@ -296,23 +295,23 @@
       <workItem from="1542493187286" duration="11124000" />
       <workItem from="1542580690998" duration="678000" />
       <workItem from="1542595494575" duration="6906000" />
-      <workItem from="1542656622424" duration="17047000" />
+      <workItem from="1542656622424" duration="19765000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="36850000" />
+    <option name="totallyTimeSpent" value="39568000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1680" height="1050" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2844933" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.2844933" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.23469388" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.23469388" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.18673469" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -334,17 +333,6 @@
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
-          <url>file://$PROJECT_DIR$/src/core/renderer.cpp</url>
-          <line>172</line>
-          <option name="timeStamp" value="16" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/src/core/utils.h">
@@ -384,30 +372,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/core/renderpass.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="73" column="26" selection-start-line="73" selection-start-column="26" selection-end-line="73" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/core/core.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="180">
           <caret line="170" column="7" selection-start-line="170" selection-start-column="7" selection-end-line="170" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/core/renderer.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="214">
-          <caret line="172" selection-start-line="172" selection-end-line="172" />
-          <folding>
-            <element signature="e#187#209#0" expanded="true" />
-            <element signature="e#300#316#0" expanded="true" />
-            <element signature="e#346#449#0" expanded="true" />
-            <element signature="e#458#484#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -433,13 +401,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="447">
           <caret line="72" column="8" selection-start-line="72" selection-start-column="8" selection-end-line="72" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/core/renderpass.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3255">
-          <caret line="222" column="17" selection-start-line="222" selection-start-column="17" selection-end-line="222" selection-end-column="17" />
         </state>
       </provider>
     </entry>
@@ -476,20 +437,6 @@
     <entry file="file://$PROJECT_DIR$/data/a5/livingroom/tinyrender/livingroom_path_implicit_1_bounce.toml">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/bsdfs/diffuse.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="402">
-          <caret line="63" column="18" selection-start-line="63" selection-start-column="18" selection-end-line="63" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/bsdfs/phong.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="528">
-          <caret line="93" column="21" selection-start-line="93" selection-start-column="21" selection-end-line="93" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/bsdfs/mixture.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="447">
@@ -513,13 +460,6 @@
     <entry file="file://$PROJECT_DIR$/src/shaders/normal.vs">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/data/a5/cubebox/tinyrender/cubebox_path_offline.toml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="7" selection-start-column="7" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/data/a5/cubebox/tinyrender/cubebox_gi_realtime.toml">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -527,20 +467,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="315">
           <caret line="22" selection-start-line="22" selection-end-line="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/renderpasses/gi.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="297">
-          <caret line="120" column="83" selection-start-line="120" selection-start-column="83" selection-end-line="120" selection-end-column="83" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/renderpasses/normal.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="598">
-          <caret line="100" column="16" selection-start-line="100" selection-start-column="16" selection-end-line="100" selection-end-column="16" />
         </state>
       </provider>
     </entry>
@@ -555,8 +481,82 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/integrators/path.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="838">
+        <state relative-caret-position="422">
           <caret line="153" column="18" selection-start-line="153" selection-start-column="18" selection-end-line="153" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/core/renderpass.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-296">
+          <caret line="73" column="26" selection-start-line="73" selection-start-column="26" selection-end-line="73" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/core/renderpass.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="695">
+          <caret line="222" column="17" selection-start-line="222" selection-start-column="17" selection-end-line="222" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/renderpasses/normal.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="598">
+          <caret line="100" column="16" selection-start-line="100" selection-start-column="16" selection-end-line="100" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/data/a5/cbox/tinyrender/cbox_path_explicit_0_bounce.exr">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/data/a5/cbox/tinyrender/cbox_path_explicit_1_bounce.exr">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/data/a5/cbox/tinyrender/cbox_path_explicit_1_bounce.toml">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/data/a5/cbox/tinyrender/cbox_path_explicit_0_bounce.toml">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/core/renderer.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1159">
+          <caret line="172" selection-start-line="172" selection-end-line="172" />
+          <folding>
+            <element signature="e#187#209#0" expanded="true" />
+            <element signature="e#300#316#0" expanded="true" />
+            <element signature="e#346#449#0" expanded="true" />
+            <element signature="e#458#484#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/data/a5/cubebox/tinyrender/cubebox_path_offline.toml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="7" selection-start-column="7" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/bsdfs/phong.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="528">
+          <caret line="93" column="21" selection-start-line="93" selection-start-column="21" selection-end-line="93" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/bsdfs/diffuse.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="402">
+          <caret line="63" column="18" selection-start-line="63" selection-start-column="18" selection-end-line="63" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/renderpasses/gi.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="293">
+          <caret line="59" column="14" selection-start-line="59" selection-start-column="14" selection-end-line="59" selection-end-column="14" />
         </state>
       </provider>
     </entry>

@@ -50,6 +50,48 @@ struct GIPass : RenderPass {
             //scene.getObjectVertexPosition()
             //scene.getObjectVertexNormal()
 
+        obj.nVerts = scene.getObjectNbVertices(objectIdx);
+        obj.vertices.resize(obj.nVerts * N_ATTR_PER_VERT);
+
+        int k= 0;
+
+        for (int j = 0; j < obj.nVerts; j++) {
+            size_t i = j;
+            //printf("Object %d/%d: %d/%d\n", objectIdx+1, objects.size(), j+1, obj.nVerts);
+            Sampler sampler = Sampler(260631195);
+
+            v3f normal = scene.getObjectVertexNormal(objectIdx, i);
+            v3f pos = scene.getObjectVertexPosition(objectIdx, i);
+
+            SurfaceInteraction hit = SurfaceInteraction();
+            hit.wo = v3f(0, 0, 1); //local normal
+            hit.p = pos+normal*Epsilon;
+            hit.primID = scene.getPrimitiveID(i);
+            hit.matID = scene.getMaterialID(objectIdx, hit.primID);
+            hit.shapeID = objectIdx;
+            hit.frameNg = Frame(normal);
+            hit.frameNs = Frame(normal);
+
+            // Position
+            obj.vertices[k + 0] = pos.x;
+            obj.vertices[k + 1] = pos.y;
+            obj.vertices[k + 2] = pos.z;
+            Ray _ray(v3f(0), v3f(1, 0, 0));
+            v3f RGB = v3f(0);
+
+            for (int l = 0; l < m_samplePerVertex; l++) {
+                RGB += m_ptIntegrator->renderExplicit(_ray, sampler, hit);
+            }
+
+            RGB /= m_samplePerVertex;
+            // RGB
+            obj.vertices[k + 3] = RGB.x;
+            obj.vertices[k + 4] = RGB.y;
+            obj.vertices[k + 5] = RGB.z;
+
+            k += N_ATTR_PER_VERT;
+        }
+
         // VBO
         glGenVertexArrays(1, &obj.vao);
         glBindVertexArray(obj.vao);
